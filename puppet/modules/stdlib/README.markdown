@@ -17,7 +17,7 @@ Puppet Labs writes and distributes will make heavy use of this standard
 library.
 
 To report or research a bug with any part of this module, please go to
-[http://projects.puppetlabs.com/projects/stdlib](http://projects.puppetlabs.com/projects/stdlib)
+[http://tickets.puppetlabs.com/browse/PUP](http://tickets.puppetlabs.com/browse/PUP)
 
 # Versions #
 
@@ -31,8 +31,9 @@ list of integration branches are:
  * v2.1.x (v2.1.1 released in PE 1)
  * v2.2.x (Never released as part of PE, only to the Forge)
  * v2.3.x (Released in PE 2)
- * v3.0.x (Never released as part of PE, only to the Forge)
- * v4.0.x (Drops support for Puppet 2.7)
+ * v3.0.x (Released in PE 3)
+ * v4.0.x (Maintains compatibility with v3.x despite the major semantic version bump.  Compatible with Puppet 2.7.x)
+ * v5.x (To be released when stdlib can drop support for Puppet 2.7.x.  Please see [this discussion](https://github.com/puppetlabs/puppetlabs-stdlib/pull/176#issuecomment-30251414))
  * master (mainline development branch)
 
 The first Puppet Enterprise version including the stdlib module is Puppet
@@ -44,7 +45,7 @@ Puppet Versions | < 2.6 | 2.6 | 2.7 | 3.x |
 :---------------|:-----:|:---:|:---:|:----:
 **stdlib 2.x**  | no    | **yes** | **yes** | no
 **stdlib 3.x**  | no    | no  | **yes** | **yes**
-**stdlib 4.x**  | no    | no  | no  | **yes**
+**stdlib 4.x**  | no    | no  | **yes** | **yes**
 
 The stdlib module does not work with Puppet versions released prior to Puppet
 2.6.0.
@@ -60,8 +61,10 @@ supports Puppet 2 and Puppet 3.
 
 ## stdlib 4.x ##
 
-The 4.0 major release of stdlib drops support for Puppet 2.7.  Stdlib 4.x
-supports Puppet 3.  Notably, ruby 1.8.5 is no longer supported though ruby
+The 4.0 major release of stdlib was intended to drop support for Puppet 2.7,
+but the impact on end users was too high.  The decision was made to treat
+stdlib 4.x as a continuation of stdlib 3.x support.  Stdlib 4.x supports Puppet
+2.7 and 3.  Notably, ruby 1.8.5 is no longer supported though ruby
 1.8.7, 1.9.3, and 2.0.0 are fully supported.
 
 # Functions #
@@ -79,6 +82,15 @@ any2array
 This converts any object to an array containing that object. Empty argument
 lists are converted to an empty array. Arrays are left untouched. Hashes are
 converted to arrays of alternating keys and values.
+
+
+- *Type*: rvalue
+
+base64
+--------
+Converts a string to and from base64 encoding.
+Requires an action ['encode','decode'] and either a plain or base64 encoded
+string
 
 
 - *Type*: rvalue
@@ -133,6 +145,11 @@ Would result in:
 
   ['1','2','3','4','5','6']
 
+  concat(['1','2','3'],'4')
+
+Would result in:
+
+  ['1','2','3','4']
 
 - *Type*: rvalue
 
@@ -195,6 +212,47 @@ Would return: ['a','c']
 
 - *Type*: rvalue
 
+delete_values
+-------------
+Deletes all instances of a given value from a hash.
+
+*Examples:*
+
+    delete_values({'a'=>'A','b'=>'B','c'=>'C','B'=>'D'}, 'B')
+
+Would return: {'a'=>'A','c'=>'C','B'=>'D'}
+
+
+- *Type*: rvalue
+
+delete_undef_values
+-------------------
+Deletes all instances of the undef value from an array or hash.
+
+*Examples:*
+
+    $hash = delete_undef_values({a=>'A', b=>'', c=>undef, d => false})
+
+Would return: {a => 'A', b => '', d => false}
+
+    $array = delete_undef_values(['A','',undef,false])
+
+Would return: ['A','',false]
+
+- *Type*: rvalue
+
+difference
+----------
+This function returns the difference between two arrays.
+The returned array is a copy of the original array, removing any items that
+also appear in the second array.
+
+*Examples:*
+
+    difference(["a","b","c"],["b","c","d"])
+
+Would return: ["a"]
+
 dirname
 -------
 Returns the `dirname` of a path.
@@ -222,6 +280,8 @@ Returns true if the variable is empty.
 ensure_packages
 ---------------
 Takes a list of packages and only installs them if they don't already exist.
+It optionally takes a hash as a second parameter that will be passed as the
+third argument to the ensure_resource() function.
 
 
 - *Type*: statement
@@ -237,7 +297,7 @@ resource.
 
 This example only creates the resource if it does not already exist:
 
-    ensure_resource('user, 'dan', {'ensure' => 'present' })
+    ensure_resource('user', 'dan', {'ensure' => 'present' })
 
 If the resource already exists but does not match the specified parameters,
 this function will attempt to recreate the resource leading to a duplicate
@@ -251,6 +311,26 @@ the type and parameters specified if it doesn't already exist.
 
 
 - *Type*: statement
+
+file_line
+---------
+This resource ensures that a given line is contained within a file. You can also use 
+"match" to replace existing lines.
+
+*Examples:*
+
+    file_line { 'sudo_rule':
+      path => '/etc/sudoers',
+      line => '%sudo ALL=(ALL) ALL',
+    }
+
+    file_line { 'change_mount':
+      path  => '/etc/fstab',
+      line  => '10.0.0.1:/vol/data /opt/data nfs defaults 0 0',
+      match => '^172.16.17.2:/vol/old',
+    }
+
+- *Type*: resource
 
 flatten
 -------
@@ -355,12 +435,16 @@ Returns boolean based on kind and value:
 * ipaddress
 * network
 
-has_interface_with("macaddress", "x:x:x:x:x:x")
-has_interface_with("ipaddress", "127.0.0.1")    => true
+*Examples:*
+
+    has_interface_with("macaddress", "x:x:x:x:x:x")
+    has_interface_with("ipaddress", "127.0.0.1")    => true
+
 etc.
 
 If no "kind" is given, then the presence of the interface is checked:
-has_interface_with("lo")                        => true
+
+    has_interface_with("lo")                        => true
 
 
 - *Type*: rvalue
@@ -416,9 +500,25 @@ Would return: {'a'=>1,'b'=>2,'c'=>3}
 
 - *Type*: rvalue
 
+intersection
+-----------
+This function returns an array an intersection of two.
+
+*Examples:*
+
+    intersection(["a","b","c"],["b","c","d"])
+
+Would return: ["b","c"]
+
 is_array
 --------
 Returns true if the variable passed to this function is an array.
+
+- *Type*: rvalue
+
+is_bool
+--------
+Returns true if the variable passed to this function is a boolean.
 
 - *Type*: rvalue
 
@@ -480,7 +580,7 @@ Returns true if the variable passed to this function is a string.
 
 join
 ----
-This function joins an array into a string using a seperator.
+This function joins an array into a string using a separator.
 
 *Examples:*
 
@@ -557,8 +657,8 @@ Merges two or more hashes together and returns the resulting hash.
 
 For example:
 
-    $hash1 = {'one' => 1, 'two', => 2}
-    $hash2 = {'two' => 'dos', 'three', => 'tres'}
+    $hash1 = {'one' => 1, 'two' => 2}
+    $hash2 = {'two' => 'dos', 'three' => 'tres'}
     $merged_hash = merge($hash1, $hash2)
     # The resulting hash is equivalent to:
     # $merged_hash =  {'one' => 1, 'two' => 'dos', 'three' => 'tres'}
@@ -625,6 +725,27 @@ Will return: ['pa','pb','pc']
 
 - *Type*: rvalue
 
+
+private
+-------
+This function sets the current class or definition as private.
+Calling the class or definition from outside the current module will fail.
+
+*Examples:*
+
+    private()
+
+called in class `foo::bar` will output the following message if class is called
+from outside module `foo`:
+
+    Class foo::bar is private
+
+You can specify the error message you want to use as a parameter:
+
+    private("You're not supposed to do that!")
+
+- *Type*: statement
+
 range
 -----
 When given range in the form of (start, stop) it will extrapolate a range as
@@ -638,8 +759,8 @@ Will return: [0,1,2,3,4,5,6,7,8,9]
 
     range("00", "09")
 
-Will return: [0,1,2,3,4,5,6,7,8,9] (Zero padded strings are converted to
-integers automatically)
+Will return: [0,1,2,3,4,5,6,7,8,9] - Zero padded strings are converted to
+integers automatically
 
     range("a", "c")
 
@@ -706,7 +827,7 @@ are replaced by a single character.
 
 str2bool
 --------
-This converts a string to a boolean. This attempt to convert strings that
+This converts a string to a boolean. This attempts to convert strings that
 contain things like: y, 1, t, true to 'true' and strings that contain things
 like: 0, f, n, false, no to 'false'.
 
@@ -758,8 +879,7 @@ To return the date:
     %L - Millisecond of the second (000..999)
     %m - Month of the year (01..12)
     %M - Minute of the hour (00..59)
-    %n - Newline (
-)
+    %n - Newline (\n)
     %N - Fractional seconds digits, default is 9 digits (nanosecond)
             %3N  millisecond (3 digits)
             %6N  microsecond (6 digits)
@@ -868,6 +988,17 @@ Returns the type when passed a variable. Type can be one of:
 
 - *Type*: rvalue
 
+union
+-----
+This function returns a union of two arrays.
+
+*Examples:*
+
+    union(["a","b","c"],["b","c","d"])
+
+Would return: ["a","b","c","d"]
+
+
 unique
 ------
 This function will remove duplicates from strings and arrays.
@@ -901,7 +1032,7 @@ Converts a string or an array of strings to uppercase.
 
 Will return:
 
-    ASDF
+    ABCD
 
 
 - *Type*: rvalue
@@ -1096,13 +1227,13 @@ to a number.
 
 The following values will pass:
 
-  validate_slength("discombobulate",17)
-  validate_slength(["discombobulate","moo"],17)
+    validate_slength("discombobulate",17)
+    validate_slength(["discombobulate","moo"],17)
 
-The following valueis will not:
+The following values will not:
 
-  validate_slength("discombobulate",1)
-  validate_slength(["discombobulate","thermometer"],5)
+    validate_slength("discombobulate",1)
+    validate_slength(["discombobulate","thermometer"],5)
 
 
 

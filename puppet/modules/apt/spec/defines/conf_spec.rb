@@ -1,5 +1,6 @@
 require 'spec_helper'
 describe 'apt::conf', :type => :define do
+  let(:facts) { { :lsbdistid => 'Debian' } }
   let :title do
     'norecommends'
   end
@@ -15,12 +16,6 @@ describe 'apt::conf', :type => :define do
     let :filename do
       "/etc/apt/apt.conf.d/00norecommends"
     end
-
-    it { should contain_apt__conf('norecommends').with({
-         'priority' => '00',
-         'content'  => "Apt::Install-Recommends 0;\nApt::AutoRemove::InstallRecommends 1;\n"
-      })
-    }
 
     it { should contain_file(filename).with({
           'ensure'    => 'present',

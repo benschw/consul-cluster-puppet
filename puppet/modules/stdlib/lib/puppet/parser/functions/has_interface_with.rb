@@ -25,7 +25,7 @@ has_interface_with("lo")                        => true
     interfaces = lookupvar('interfaces')
 
     # If we do not have any interfaces, then there are no requested attributes
-    return false if (interfaces == :undefined)
+    return false if (interfaces == :undefined || interfaces.nil?)
 
     interfaces = interfaces.split(',')
 
@@ -41,7 +41,12 @@ has_interface_with("lo")                        => true
 
     result = false
     interfaces.each do |iface|
-      if value == lookupvar("#{kind}_#{iface}")
+      factval = nil
+      begin
+        factval = lookupvar("#{kind}_#{iface}")
+      rescue Puppet::ParseError # Eat the exception if strict_variables = true is set
+      end
+      if value == factval
         result = true
         break
       end

@@ -1,12 +1,4 @@
 {
-  "name": "nanliu-staging",
-  "version": "1.0.0",
-  "author": "nanliu",
-  "summary": "Compressed file staging and deployment",
-  "license": "Apache License Version 2.0",
-  "source": "git@github.com:nanliu/puppet-staging.git",
-  "project_page": "https://github.com/nanliu/puppet-staging",
-  "issues_url": "https://github.com/nanliu/puppet-staging/issues",
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
@@ -99,8 +91,15 @@
       "version_requirement": ">=2.7.0 <4.0.0"
     }
   ],
+  "name": "nanliu-staging",
+  "version": "1.0.0",
+  "source": "git://github.com/nanliu/puppet-staging",
+  "author": "Nan Liu",
+  "license": "Apache 2.0",
+  "summary": "Compressed file staging and deployment",
   "description": "Manages compressed file staging and deployment.",
+  "project_page": "https://github.com/nanliu/puppet-staging",
   "dependencies": [
-  
+
   ]
 }
