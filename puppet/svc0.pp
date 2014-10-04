@@ -1,5 +1,6 @@
 Exec { path => "/usr/bin:/usr/sbin:/bin:/sbin" }
 
+define common::line { }
 
 stage { 'preinstall':
   before => Stage['main']
@@ -27,10 +28,10 @@ node default {
 		source       => '/vagrant/demo/build/libs/demo-0.1.0.jar',
 	}
 
-	file { '/etc/init.d/demo':
-		path         => '/etc/init.d/demo',
+	file { '/etc/init/demo.conf':
+		path         => '/etc/init/demo.conf',
 		ensure       => present,
-		source       => '/vagrant/demo/demo-init',
+		source       => '/vagrant/demo/demo-init.conf',
 	}
 
 	service { "demo":
@@ -38,7 +39,7 @@ node default {
 	    enable  => "true",
 		require => [
 			Package["openjdk-7-jdk"],
-			File["/etc/init.d/demo"],
+			File["/etc/init/demo.conf"],
 			File["/opt/demo.jar"],
 		]
 	}
@@ -70,10 +71,10 @@ node default {
 		check_interval => '5s',
 	}
 
-	include dnsmasq
-	dnsmasq::conf { 'consul':
-		ensure  => present,
-		content => 'server=/consul/127.0.0.1#8600',
-	}
+	# include dnsmasq
+	# dnsmasq::conf { 'consul':
+	# 	ensure  => present,
+	# 	content => 'server=/consul/127.0.0.1#8600',
+	# }
 
 }
