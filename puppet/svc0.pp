@@ -22,6 +22,7 @@ node default {
 
 
 	file { '/opt/demo.jar':
+		notify       => Service["demo"],
 		path         => '/opt/demo.jar',
 		ensure       => present,
 		source       => '/vagrant/demo/build/libs/demo-0.1.0.jar',
@@ -43,24 +44,24 @@ node default {
 		]
 	}
 
+	include dnsmasq
+	
+	dnsmasq::dnsserver { 'forward-zone-consul':
+		domain => "consul",
+		ip => "127.0.0.1#8600",
+	}
+
 	class { 'consul':
-		# join_cluster => '172.20.20.9',
+		# join_cluster => hiera('join_addr'),
 		config_hash => {
 			'datacenter' => 'dc1',
 			'data_dir'   => '/opt/consul',
 			'log_level'  => 'INFO',
-			'node_name'  => 'svc0',
-			'bind_addr'  => '172.20.20.13',
+			'node_name'  => $::hostname,
+			'bind_addr'  => $::ipaddress_eth1,
 			'server'     => false,
+			'start_join' => [hiera('join_addr')],
 		}
-	}
-
-	file { '/opt/health.sh':
-		path         => '/opt/health.sh',
-		ensure       => present,
-		mode         => 0755,
-		source       => '/vagrant/demo/health.sh',
-		before       => Consul::Service['my-svc']
 	}
 
 	consul::service { 'my-svc':
@@ -70,11 +71,12 @@ node default {
 		check_interval => '5s',
 	}
 
-	include dnsmasq
-	
-	dnsmasq::dnsserver { 'forward-zone-consul':
-		domain => "consul",
-		ip => "127.0.0.1#8600",
+	file { '/opt/health.sh':
+		path         => '/opt/health.sh',
+		ensure       => present,
+		mode         => 0755,
+		source       => '/vagrant/demo/health.sh',
+		before       => Consul::Service['my-svc']
 	}
 
 }

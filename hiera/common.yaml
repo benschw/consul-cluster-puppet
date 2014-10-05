@@ -1,3 +1,4 @@
 # hiera/common.yaml
 ---
 consul::join_cluster: "172.20.20.9"
+join_addr: "172.20.20.9"
