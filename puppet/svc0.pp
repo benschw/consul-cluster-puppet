@@ -1,6 +1,5 @@
 Exec { path => "/usr/bin:/usr/sbin:/bin:/sbin" }
 
-define common::line { }
 
 stage { 'preinstall':
   before => Stage['main']
@@ -66,15 +65,16 @@ node default {
 
 	consul::service { 'my-svc':
 		tags => ['actuator'],
-		port => 8081,
+		port => 8080,
 		check_script => '/opt/health.sh',
 		check_interval => '5s',
 	}
 
-	# include dnsmasq
-	# dnsmasq::conf { 'consul':
-	# 	ensure  => present,
-	# 	content => 'server=/consul/127.0.0.1#8600',
-	# }
+	include dnsmasq
+	
+	dnsmasq::dnsserver { 'forward-zone-consul':
+		domain => "consul",
+		ip => "127.0.0.1#8600",
+	}
 
 }

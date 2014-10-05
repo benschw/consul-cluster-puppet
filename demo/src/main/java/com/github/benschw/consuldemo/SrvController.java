@@ -45,7 +45,7 @@ public class SrvController {
 			.dnsLookupTimeoutMillis(1000)
 			.build();
 
-		String name = "foo.service.fliglio.com";
+		String name = "my-svc.service.consul";
 
 		String resp = "";
 
