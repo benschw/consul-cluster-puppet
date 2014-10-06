@@ -18,7 +18,7 @@ node default {
 			'client_addr' => '0.0.0.0',
 			'log_level'   => 'INFO',
 			'node_name'   => 'webui',
-			'bind_addr'   => '172.20.20.12',
+			'bind_addr'   => $::ipaddress_eth1,
 			'server'      => true,
 		}
 	}
