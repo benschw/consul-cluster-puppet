@@ -26,15 +26,15 @@ node default {
 	consul::service { 'foo-svc':
 		tags => ['actuator'],
 		port => 8080,
-		check_script => '/opt/health.sh',
+		check_script => '/opt/health.py',
 		check_interval => '5s',
 	}
 
-	file { '/opt/health.sh':
-		path         => '/opt/health.sh',
+	file { '/opt/health.py':
+		path         => '/opt/health.py',
 		ensure       => present,
 		mode         => 0755,
-		source       => '/vagrant/demo/health.sh',
+		source       => '/vagrant/demo/health.py',
 		before       => Consul::Service['foo-svc']
 	}
 
