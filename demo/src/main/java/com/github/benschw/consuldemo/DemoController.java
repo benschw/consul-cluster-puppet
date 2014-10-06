@@ -51,8 +51,7 @@ public class DemoController {
 
             return msg;
         } catch (DnsException e) {
-            e.printStackTrace(System.out);
-            return new Message("oops");
+            return new Message(e.getMessage());
         }
     }
 
