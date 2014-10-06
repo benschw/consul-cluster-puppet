@@ -24,6 +24,7 @@ class consulclient {
 			'node_name'  => $::hostname,
 			'bind_addr'  => $::ipaddress_eth1,
 			'server'     => false,
+			'start_join'  => [hiera('join_addr')],
 		}
 	}
 

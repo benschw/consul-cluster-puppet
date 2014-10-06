@@ -3,9 +3,6 @@
 
 Vagrant.configure("2") do |config|
   
-  # config.vm.box_url = "http://netmgr11.bvops.net/images/debian7-base.box"
-  # config.vm.box = "debian7-base"
-
   config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
   config.vm.box = "trusty64"
 
