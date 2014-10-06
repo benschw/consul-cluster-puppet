@@ -86,17 +86,17 @@ Vagrant.configure("2") do |config|
   end
   # end ========================================================================
 
-  # svc0 =======================================================================
-  config.vm.define "svc0" do |svc0|
+  # demo =======================================================================
+  config.vm.define "demo" do |demo|
 
-    svc0.vm.hostname = "svc0"
-    svc0.vm.network "private_network", ip: "172.20.20.13"
+    demo.vm.hostname = "demo"
+    demo.vm.network "private_network", ip: "172.20.20.13"
 
-    svc0.vm.provision :puppet do |puppet|
+    demo.vm.provision :puppet do |puppet|
       puppet.hiera_config_path = "hiera/hiera.yaml"
       puppet.manifests_path = "puppet"
       puppet.module_path    = "puppet/modules"
-      puppet.manifest_file  = "svc0.pp"
+      puppet.manifest_file  = "demo.pp"
       puppet.options = [
         # '--verbose',
         # '--debug',
@@ -105,6 +105,43 @@ Vagrant.configure("2") do |config|
   end
   # end ========================================================================
 
+  # foosvc0 ====================================================================
+  config.vm.define "foosvc0" do |foosvc0|
+
+    foosvc0.vm.hostname = "foosvc0"
+    foosvc0.vm.network "private_network", ip: "172.20.20.14"
+
+    foosvc0.vm.provision :puppet do |puppet|
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.manifests_path = "puppet"
+      puppet.module_path    = "puppet/modules"
+      puppet.manifest_file  = "foosvc.pp"
+      puppet.options = [
+        # '--verbose',
+        # '--debug',
+      ]
+    end
+  end
+  # end ========================================================================
+
+  # foosvc0 ====================================================================
+  config.vm.define "foosvc1" do |foosvc1|
+
+    foosvc1.vm.hostname = "foosvc1"
+    foosvc1.vm.network "private_network", ip: "172.20.20.15"
+
+    foosvc1.vm.provision :puppet do |puppet|
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.manifests_path = "puppet"
+      puppet.module_path    = "puppet/modules"
+      puppet.manifest_file  = "foosvc.pp"
+      puppet.options = [
+        # '--verbose',
+        # '--debug',
+      ]
+    end
+  end
+  # end ========================================================================
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "512"]
