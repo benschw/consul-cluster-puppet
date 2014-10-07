@@ -4,7 +4,7 @@ package com.github.benschw.consuldemo.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.github.benschw.consuldemo.api.FooSvcApi;
 import com.github.benschw.consuldemo.api.DemoApi;
-import com.github.benschw.springboot.SrvLoadBalancer.LoadBalancer;
+import com.github.benschw.springboot.srvloadbalancer.LoadBalancer;
 import com.google.common.net.HostAndPort;
 import com.spotify.dns.DnsException;
 import org.springframework.beans.factory.annotation.Autowired;

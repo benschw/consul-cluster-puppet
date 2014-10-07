@@ -1,10 +1,10 @@
 package com.github.benschw.consuldemo;
 
 import com.codahale.metrics.MetricRegistry;
-import com.github.benschw.springboot.SrvLoadBalancer.CodahaleSpringBootReporter;
-import com.github.benschw.springboot.SrvLoadBalancer.LoadBalancer;
-import com.github.benschw.springboot.SrvLoadBalancer.LoadBalancingStrategy;
-import com.github.benschw.springboot.SrvLoadBalancer.RandomLoadBalancingStrategy;
+import com.github.benschw.springboot.srvloadbalancer.CodahaleSpringBootReporter;
+import com.github.benschw.springboot.srvloadbalancer.LoadBalancer;
+import com.github.benschw.springboot.srvloadbalancer.LoadBalancingStrategy;
+import com.github.benschw.springboot.srvloadbalancer.RandomLoadBalancingStrategy;
 import com.github.benschw.springboot.metrics.CodahaleMetricsAdapter;
 import com.github.benschw.springboot.metrics.MetricNamer;
 import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
@@ -12,6 +12,7 @@ import com.spotify.dns.DnsSrvResolver;
 import com.spotify.dns.DnsSrvResolvers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.endpoint.PublicMetrics;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,7 +35,7 @@ public class ApplicationConfiguration {
 	MetricRegistry metricsRegistry;
 
 	@Bean
-	public CodahaleMetricsAdapter codahaleMetricsAdapter() {
+	public PublicMetrics publicMetrics() {
 		MetricNamer metricNamer = new MetricNamer(serviceName, trimString);
 		return new CodahaleMetricsAdapter(metricNamer, metricsRegistry);
 	}
