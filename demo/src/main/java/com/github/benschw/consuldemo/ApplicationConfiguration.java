@@ -1,10 +1,7 @@
 package com.github.benschw.consuldemo;
 
 import com.codahale.metrics.MetricRegistry;
-import com.github.benschw.springboot.srvloadbalancer.CodahaleSpringBootReporter;
-import com.github.benschw.springboot.srvloadbalancer.LoadBalancer;
-import com.github.benschw.springboot.srvloadbalancer.LoadBalancingStrategy;
-import com.github.benschw.springboot.srvloadbalancer.RandomLoadBalancingStrategy;
+import com.github.benschw.springboot.srvloadbalancer.*;
 import com.github.benschw.springboot.metrics.CodahaleMetricsAdapter;
 import com.github.benschw.springboot.metrics.MetricNamer;
 import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
@@ -42,7 +39,7 @@ public class ApplicationConfiguration {
 
 	@Bean
 	public LoadBalancer loadBalancer() {
-		LoadBalancingStrategy strategy = new RandomLoadBalancingStrategy();
+		LoadBalancingStrategy strategy = new RoundRobinLoadBalancingStrategy();
 
 		DnsSrvResolver resolver = DnsSrvResolvers.newBuilder()
 				.cachingLookups(true)
