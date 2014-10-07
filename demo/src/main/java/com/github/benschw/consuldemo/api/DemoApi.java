@@ -1,34 +1,20 @@
 package com.github.benschw.consuldemo.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.net.HostAndPort;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Builder;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DemoApi {
 
 	private FooSvcApi fooSvcResponse;
 	private HostAndPort selectedAddress;
-
-	public DemoApi() {
-	}
-
-	public DemoApi(FooSvcApi fooSvcResponse, HostAndPort selectedAddress) {
-		this.fooSvcResponse = fooSvcResponse;
-		this.selectedAddress = selectedAddress;
-	}
-
-	public FooSvcApi getFooSvcResponse() {
-		return fooSvcResponse;
-	}
-
-	public void setFooSvcResponse(FooSvcApi fooSvcResponse) {
-		this.fooSvcResponse = fooSvcResponse;
-	}
-
-	public HostAndPort getSelectedAddress() {
-		return selectedAddress;
-	}
-
-	public void setSelectedAddress(HostAndPort selectedAddress) {
-		this.selectedAddress = selectedAddress;
-	}
 
 }

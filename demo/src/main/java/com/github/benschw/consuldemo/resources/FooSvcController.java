@@ -26,7 +26,9 @@ public class FooSvcController {
         } catch (UnknownHostException e) {
             //pass
         }
-        return new FooSvcApi("Hello from " + hostName);
+        return FooSvcApi.builder().
+				message("Hello from " + hostName).
+				build();
 	}
 
 }

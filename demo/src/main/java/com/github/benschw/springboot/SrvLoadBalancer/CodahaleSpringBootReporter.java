@@ -1,4 +1,4 @@
-package com.github.benschw.SrvLoadBalancer;
+package com.github.benschw.springboot.SrvLoadBalancer;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;

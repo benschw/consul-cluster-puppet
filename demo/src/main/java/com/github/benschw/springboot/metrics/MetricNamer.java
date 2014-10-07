@@ -1,4 +1,4 @@
-package com.github.benschw.consuldemo.metrics;
+package com.github.benschw.springboot.metrics;
 
 
 public class MetricNamer {

@@ -29,6 +29,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+	compile("org.projectlombok:lombok:1.14.8")
 //    compile("com.spotify:dns:2.2.0")
 
     compile("dnsjava:dnsjava:2.1.6")

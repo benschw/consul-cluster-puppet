@@ -1,4 +1,4 @@
-package com.github.benschw.SrvLoadBalancer;
+package com.github.benschw.springboot.SrvLoadBalancer;
 
 import com.google.common.net.HostAndPort;
 

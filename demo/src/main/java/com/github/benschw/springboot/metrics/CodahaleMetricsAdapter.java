@@ -1,4 +1,4 @@
-package com.github.benschw.consuldemo.metrics;
+package com.github.benschw.springboot.metrics;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
@@ -11,19 +11,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.SortedMap;
 
-import com.github.benschw.consuldemo.metrics.MetricNamer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.PublicMetrics;
 import org.springframework.boot.actuate.metrics.Metric;
-import org.springframework.stereotype.Component;
 
-@Component
 public class CodahaleMetricsAdapter implements PublicMetrics {
 
-	@Autowired
 	private MetricNamer metricNamer;
-	@Autowired
 	private MetricRegistry metricRegistry;
+
+	public CodahaleMetricsAdapter(MetricNamer metricNamer, MetricRegistry metricRegistry) {
+		this.metricNamer = metricNamer;
+		this.metricRegistry = metricRegistry;
+	}
 
 	@Override
 	public Collection<Metric<?>> metrics() {
