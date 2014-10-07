@@ -1,4 +1,4 @@
-package com.github.benschw.consuldemo;
+package com.github.benschw.consuldemo.resources;
 
 
 import com.codahale.metrics.annotation.Timed;
