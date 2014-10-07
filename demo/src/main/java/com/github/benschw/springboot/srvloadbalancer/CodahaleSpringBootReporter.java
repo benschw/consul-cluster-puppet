@@ -1,5 +1,6 @@
 package com.github.benschw.springboot.srvloadbalancer;
 
+import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import com.spotify.dns.statistics.DnsReporter;
@@ -7,39 +8,38 @@ import com.spotify.dns.statistics.DnsTimingContext;
 
 public class CodahaleSpringBootReporter implements DnsReporter {
 
-	private MetricRegistry metrics;
-	private Timer responses;
+    private MetricRegistry metrics;
+	private Timer lookups;
+    private Counter failures;
+    private Counter empties;
 
 	public CodahaleSpringBootReporter(MetricRegistry metrics) {
 		this.metrics = metrics;
-		responses = metrics.timer(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookup"));
+		lookups = metrics.timer(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookup"));
+        failures = metrics.counter(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookupfailures"));
+        empties = metrics.counter(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookupempty"));
 	}
 
 	@Override
 	public DnsTimingContext resolveTimer() {
 		return new DnsTimingContext() {
-			final Timer.Context context = responses.time();
-			private final long start = System.currentTimeMillis();
+			final Timer.Context context = lookups.time();
 
 			@Override
 			public void stop() {
-				final long now = System.currentTimeMillis();
-				final long diff = now - start;
 				context.stop();
-
-				System.out.println("Request took " + diff + "ms");
 			}
 		};
 	}
 
 	@Override
 	public void reportFailure(Throwable error) {
-		System.err.println("Error when resolving: " + error);
+        failures.inc();
 		error.printStackTrace(System.err);
 	}
 
 	@Override
 	public void reportEmpty() {
-		System.out.println("Empty response from server.");
+        empties.inc();
 	}
 }
