@@ -16,6 +16,7 @@
 
 package com.github.benschw.consuldemo;
 
+import com.github.benschw.consuldemo.api.FooSvcApi;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,14 +32,15 @@ public class FooSvcController {
 
 
 	@RequestMapping(method=RequestMethod.GET)
-	public @ResponseBody Message foo() {
+	public @ResponseBody
+    FooSvcApi foo() {
         String hostName = "unknown";
         try {
             hostName = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
             //pass
         }
-        return new Message("Hello from " + hostName);
+        return new FooSvcApi("Hello from " + hostName);
 	}
 
 }
