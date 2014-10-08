@@ -102,17 +102,17 @@ Vagrant.configure("2") do |config|
   end
   # end ========================================================================
 
-  # foosvc0 ====================================================================
-  config.vm.define "foosvc0" do |foosvc0|
+  # foo0 =======================================================================
+  config.vm.define "foo0" do |foo0|
 
-    foosvc0.vm.hostname = "foosvc0"
-    foosvc0.vm.network "private_network", ip: "172.20.20.14"
+    foo0.vm.hostname = "foo0"
+    foo0.vm.network "private_network", ip: "172.20.20.14"
 
-    foosvc0.vm.provision :puppet do |puppet|
+    foo0.vm.provision :puppet do |puppet|
       puppet.hiera_config_path = "hiera/hiera.yaml"
       puppet.manifests_path = "puppet"
       puppet.module_path    = "puppet/modules"
-      puppet.manifest_file  = "foosvc.pp"
+      puppet.manifest_file  = "foo.pp"
       puppet.options = [
         # '--verbose',
         # '--debug',
@@ -121,17 +121,17 @@ Vagrant.configure("2") do |config|
   end
   # end ========================================================================
 
-  # foosvc0 ====================================================================
-  config.vm.define "foosvc1" do |foosvc1|
+  # foo1 =======================================================================
+  config.vm.define "foo1" do |foo1|
 
-    foosvc1.vm.hostname = "foosvc1"
-    foosvc1.vm.network "private_network", ip: "172.20.20.15"
+    foo1.vm.hostname = "foo1"
+    foo1.vm.network "private_network", ip: "172.20.20.15"
 
-    foosvc1.vm.provision :puppet do |puppet|
+    foo1.vm.provision :puppet do |puppet|
       puppet.hiera_config_path = "hiera/hiera.yaml"
       puppet.manifests_path = "puppet"
       puppet.module_path    = "puppet/modules"
-      puppet.manifest_file  = "foosvc.pp"
+      puppet.manifest_file  = "foo.pp"
       puppet.options = [
         # '--verbose',
         # '--debug',

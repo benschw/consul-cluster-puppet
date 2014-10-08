@@ -2,8 +2,8 @@ package com.github.benschw.consuldemo.resources;
 
 
 import com.codahale.metrics.annotation.Timed;
-import com.github.benschw.consuldemo.api.FooSvcApi;
-import com.github.benschw.consuldemo.api.DemoApi;
+import com.github.benschw.consuldemo.api.Demo;
+import com.github.benschw.consuldemo.api.Foo;
 import com.github.benschw.springboot.srvloadbalancer.LoadBalancer;
 import com.google.common.net.HostAndPort;
 import com.spotify.dns.DnsException;
@@ -21,23 +21,23 @@ public class DemoController {
 	@Timed
     @RequestMapping(method=RequestMethod.GET)
     public @ResponseBody
-    DemoApi demo() {
+    Demo demo() {
 
         try {
-			HostAndPort node = loadBalancer.getAddress("foo-svc");
+			HostAndPort node = loadBalancer.getAddress("foo");
 
-			String address = LoadBalancer.AddressString("http", node) +  "/foosvc";
+			String address = LoadBalancer.AddressString("http", node) +  "/foo";
 
             RestTemplate restTemplate = new RestTemplate();
-            FooSvcApi foo = restTemplate.getForObject(address, FooSvcApi.class);
+            Foo foo = restTemplate.getForObject(address, Foo.class);
 
-            return DemoApi.builder().
-					fooSvcResponse(foo).
+            return Demo.builder().
+					fooResponse(foo).
 					selectedAddress(node).
 					build();
 
         } catch (DnsException e) {
-            return DemoApi.builder().build();
+            return Demo.builder().build();
         }
     }
 

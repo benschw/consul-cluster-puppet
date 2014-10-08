@@ -23,7 +23,7 @@ node default {
 	# Configure Service with Consul (including health check)
 	#
 
-	consul::service { 'foo-svc':
+	consul::service { 'foo':
 		tags => ['actuator'],
 		port => 8080,
 		check_script => '/opt/health.py',
@@ -35,7 +35,7 @@ node default {
 		ensure       => present,
 		mode         => 0755,
 		source       => '/vagrant/demo/health.py',
-		before       => Consul::Service['foo-svc']
+		before       => Consul::Service['foo']
 	}
 
 }
