@@ -16,3 +16,6 @@ git clone https://github.com/example42/puppet-redis.git puppet/modules/redis
 git clone https://github.com/puppetlabs/puppetlabs-rabbitmq.git puppet/modules/rabbitmq
 git clone https://github.com/sensu/sensu-puppet.git puppet/modules/sensu
 
+git clone https://github.com/Yelp/puppet-uchiwa.git puppet/modules/uchiwa
+git clone https://github.com/richardc/puppet-datacat.git puppet/modules/datacat
+

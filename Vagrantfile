@@ -159,6 +159,25 @@ Vagrant.configure("2") do |config|
   end
   # end ========================================================================
 
+  # sensu dashboard ============================================================
+  config.vm.define "uchiwa" do |uchiwa|
+
+    uchiwa.vm.hostname = "uchiwa.local"
+    uchiwa.vm.network "private_network", ip: "172.20.20.17"
+
+    uchiwa.vm.provision :puppet do |puppet|
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.manifests_path = "puppet"
+      puppet.module_path    = "puppet/modules"
+      puppet.manifest_file  = "uchiwa.pp"
+      puppet.options = [
+        # '--verbose',
+        # '--debug',
+      ]
+    end
+  end
+  # end ========================================================================
+
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "512"]
   end
