@@ -7,7 +7,7 @@ node default {
 	class { 'uchiwa':
 	}
 	uchiwa::api { ' API 1':
-		host => '172.20.20.16',
+		host => hiera('sensu_host'),
 	}
 
 }

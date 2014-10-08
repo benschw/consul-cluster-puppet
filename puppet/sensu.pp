@@ -7,7 +7,7 @@ node default {
   class { 'rabbitmq':
   }
   rabbitmq_vhost { '/sensu': }
-  rabbitmq_user { 'sensu': password => 'password' }
+  rabbitmq_user { 'sensu': password => hiera('rabbitmq_pass') }
   rabbitmq_user_permissions { 'sensu@/sensu':
     configure_permission => '.*',
     read_permission => '.*',
@@ -19,8 +19,8 @@ node default {
     api => true,
     purge_config => true,
     rabbitmq_user => 'sensu',
-    rabbitmq_password => 'password',
-    rabbitmq_host => '172.20.20.16',
+    rabbitmq_password => hiera('rabbitmq_pass'),
+    rabbitmq_host => hiera('rabbitmq_host'),
     rabbitmq_vhost => '/sensu',
     rabbitmq_port => 5672,
     subscriptions => 'sensu-test',
