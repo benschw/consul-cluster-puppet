@@ -4,8 +4,10 @@
 - Wire up Spring Boot Actuator health checks with Consul and Sensu
 - Integrate Codahale metrics with Spring Boot Actuator
 - Emit metrics about Consul DNS lookups (timing, failures, etc.)
-- _**todo**_Aggregate metrics into Graphite with Sensu
 
+### todo
+- Aggregate metrics into Graphite with Sensu
+- set sensu rabbit password with puppet
 
 ### links once it's up
 - Dashboards
