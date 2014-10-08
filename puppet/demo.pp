@@ -16,6 +16,8 @@ class { 'apt_get_update':
 import "classes/*"
 
 node default {
+	include apt
+
 	include springboot
 	include consulclient
 
@@ -41,10 +43,11 @@ node default {
 	class { 'sensu':
 		purge_config => true,
 		rabbitmq_password => 'password',
-		rabbitmq_host => 'mon1',
+		rabbitmq_host => '172.20.20.16',
 		subscriptions => 'sensu-test',
-		rabbitmq_ssl_private_key => "/vagrant/sensu-keys/client_key.pem",
-		rabbitmq_ssl_cert_chain => "/vagrant/sensu-keys/client_cert.pem",
+		# rabbitmq_ssl_private_key => "/vagrant/sensu-keys/client_key.pem",
+		# rabbitmq_ssl_cert_chain => "/vagrant/sensu-keys/client_cert.pem",
+    	rabbitmq_port => 5672,
 	}
 
 }
