@@ -1,0 +1,1 @@
+http://www.xkyle.com/getting-started-with-sensu-using-puppet-for-real/

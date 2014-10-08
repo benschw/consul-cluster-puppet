@@ -38,4 +38,13 @@ node default {
 		before       => Consul::Service['demo']
 	}
 
+	class { 'sensu':
+		purge_config => true,
+		rabbitmq_password => 'password',
+		rabbitmq_host => 'mon1',
+		subscriptions => 'sensu-test',
+		rabbitmq_ssl_private_key => "/vagrant/sensu-keys/client_key.pem",
+		rabbitmq_ssl_cert_chain => "/vagrant/sensu-keys/client_cert.pem",
+	}
+
 }
