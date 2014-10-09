@@ -4,18 +4,17 @@ Exec { path => "/usr/bin:/usr/sbin:/bin:/sbin" }
 node default {
 	include apt
 
-	class { 'rabbitmq':
-	}
 	rabbitmq_vhost { '/sensu': }
 	rabbitmq_user { 'sensu': 
-		password => hiera('rabbitmq_pass'), 
+		password => 'changeme', #hiera('rabbitmq_pass'), 
 	}
 	rabbitmq_user_permissions { 'sensu@/sensu':
 		configure_permission => '.*',
 		read_permission => '.*',
 		write_permission => '.*',
 	}
-	class {'redis': }
+	class {'rabbitmq': } -> 
+	class {'redis': } ->
 	class {'sensu':
 		server => true,
 		api => true,
