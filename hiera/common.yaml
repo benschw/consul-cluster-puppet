@@ -2,6 +2,7 @@
 ---
 consul::join_cluster: "172.20.20.9"
 join_addr: "172.20.20.9"
-sensu_host: "172.20.20.16"
-rabbitmq_host: "172.20.20.16"
+
+sensu_host: "172.20.20.13"
+rabbitmq_host: "172.20.20.13"
 rabbitmq_pass: "changeme"
