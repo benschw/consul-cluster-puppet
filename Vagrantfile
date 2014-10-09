@@ -20,7 +20,6 @@ Vagrant.configure("2") do |config|
       puppet.options = [
         # '--verbose',
         # '--debug',
-        # '--hiera_config=/vagrant/hiera/server0.yaml',
       ]
     end
   end
@@ -83,68 +82,11 @@ Vagrant.configure("2") do |config|
   end
   # end ========================================================================
 
-  # demo =======================================================================
-  config.vm.define "demo" do |demo|
-
-    demo.vm.hostname = "demo.local"
-    demo.vm.network "private_network", ip: "172.20.20.13"
-
-    demo.vm.provision :puppet do |puppet|
-      puppet.hiera_config_path = "hiera/hiera.yaml"
-      puppet.manifests_path = "puppet"
-      puppet.module_path    = "puppet/modules"
-      puppet.manifest_file  = "demo.pp"
-      puppet.options = [
-        # '--verbose',
-        # '--debug',
-      ]
-    end
-  end
-  # end ========================================================================
-
-  # foo0 =======================================================================
-  config.vm.define "foo0" do |foo0|
-
-    foo0.vm.hostname = "foo0.local"
-    foo0.vm.network "private_network", ip: "172.20.20.14"
-
-    foo0.vm.provision :puppet do |puppet|
-      puppet.hiera_config_path = "hiera/hiera.yaml"
-      puppet.manifests_path = "puppet"
-      puppet.module_path    = "puppet/modules"
-      puppet.manifest_file  = "foo.pp"
-      puppet.options = [
-        # '--verbose',
-        # '--debug',
-      ]
-    end
-  end
-  # end ========================================================================
-
-  # foo1 =======================================================================
-  config.vm.define "foo1" do |foo1|
-
-    foo1.vm.hostname = "foo1.local"
-    foo1.vm.network "private_network", ip: "172.20.20.15"
-
-    foo1.vm.provision :puppet do |puppet|
-      puppet.hiera_config_path = "hiera/hiera.yaml"
-      puppet.manifests_path = "puppet"
-      puppet.module_path    = "puppet/modules"
-      puppet.manifest_file  = "foo.pp"
-      puppet.options = [
-        # '--verbose',
-        # '--debug',
-      ]
-    end
-  end
-  # end ========================================================================
-
   # sensu server ===============================================================
   config.vm.define "sensu" do |sensu|
 
     sensu.vm.hostname = "sensu.local"
-    sensu.vm.network "private_network", ip: "172.20.20.16"
+    sensu.vm.network "private_network", ip: "172.20.20.13"
 
     sensu.vm.provision :puppet do |puppet|
       puppet.hiera_config_path = "hiera/hiera.yaml"
@@ -163,7 +105,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "uchiwa" do |uchiwa|
 
     uchiwa.vm.hostname = "uchiwa.local"
-    uchiwa.vm.network "private_network", ip: "172.20.20.17"
+    uchiwa.vm.network "private_network", ip: "172.20.20.14"
 
     uchiwa.vm.provision :puppet do |puppet|
       puppet.hiera_config_path = "hiera/hiera.yaml"
@@ -178,9 +120,67 @@ Vagrant.configure("2") do |config|
   end
   # end ========================================================================
 
+  # demo =======================================================================
+  config.vm.define "demo" do |demo|
+
+    demo.vm.hostname = "demo.local"
+    demo.vm.network "private_network", ip: "172.20.20.20"
+
+    demo.vm.provision :puppet do |puppet|
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.manifests_path = "puppet"
+      puppet.module_path    = "puppet/modules"
+      puppet.manifest_file  = "demo.pp"
+      puppet.options = [
+        # '--verbose',
+        # '--debug',
+      ]
+    end
+  end
+  # end ========================================================================
+
+  # foo0 =======================================================================
+  config.vm.define "foo0" do |foo0|
+
+    foo0.vm.hostname = "foo0.local"
+    foo0.vm.network "private_network", ip: "172.20.20.21"
+
+    foo0.vm.provision :puppet do |puppet|
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.manifests_path = "puppet"
+      puppet.module_path    = "puppet/modules"
+      puppet.manifest_file  = "foo.pp"
+      puppet.options = [
+        # '--verbose',
+        # '--debug',
+      ]
+    end
+  end
+  # end ========================================================================
+
+  # foo1 =======================================================================
+  config.vm.define "foo1" do |foo1|
+
+    foo1.vm.hostname = "foo1.local"
+    foo1.vm.network "private_network", ip: "172.20.20.22"
+
+    foo1.vm.provision :puppet do |puppet|
+      puppet.hiera_config_path = "hiera/hiera.yaml"
+      puppet.manifests_path = "puppet"
+      puppet.module_path    = "puppet/modules"
+      puppet.manifest_file  = "foo.pp"
+      puppet.options = [
+        # '--verbose',
+        # '--debug',
+      ]
+    end
+  end
+  # end ========================================================================
+
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "512"]
   end
 
 end
+
 
