@@ -6,7 +6,7 @@ node default {
 
 	rabbitmq_vhost { '/sensu': }
 	rabbitmq_user { 'sensu': 
-		password => 'changeme', #hiera('rabbitmq_pass'), 
+		password => hiera('rabbitmq_pass'), 
 	}
 	rabbitmq_user_permissions { 'sensu@/sensu':
 		configure_permission => '.*',
