@@ -7,9 +7,10 @@
 
 ### Usage
 
-run `deps.sh` to grab puppet dependencies, then `vagrant up`
+run `deps.sh` to grab puppet dependencies, `build.sh` to build the java app, then `vagrant up`
 
 	./deps.sh
+	./build.sh
 	vagrant up
 
 ### links (once it's up)
