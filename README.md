@@ -12,3 +12,11 @@
 	- [demo](http://172.20.20.20:8080/demo)
 	- [demo health](http://172.20.20.20:8081/health)
 	- [demo metrics](http://172.20.20.20:8081/metrics)
+
+### Usage
+
+run `deps.sh` to grab puppet dependencies, then `vagrant up`
+
+	./deps.sh
+	vagrant up
+
