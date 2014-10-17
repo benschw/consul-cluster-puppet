@@ -3,14 +3,9 @@ Exec { path => "/usr/bin:/usr/sbin:/bin:/sbin" }
 
 
 node default {
-		
-	# package {["redis-server", "git", "curl", "rubygems", "wget", "mysql-client"]:
-	# 		ensure => present,
-	# }
-
 
 	class { 'consul':
-		# join_cluster => '172.20.20.9',
+		# join_cluster => '172.20.20.10',
 	  	config_hash => {
 			'datacenter'  => 'dc1',
 			'data_dir'    => '/opt/consul',

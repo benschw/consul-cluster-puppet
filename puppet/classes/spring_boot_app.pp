@@ -1,4 +1,7 @@
-class springboot {
+class spring_boot_app (
+	$jar_path    = 'unknown',
+	$health_path = 'unknown',
+) {
 
 	#
 	# Spring Boot Application
@@ -8,12 +11,18 @@ class springboot {
 		ensure => present,
 	}
 
+	file { '/opt/health.py':
+		path         => '/opt/health.py',
+		ensure       => present,
+		mode         => 0755,
+		source       => $health_path,
+	}
 
 	file { '/opt/demo.jar':
 		notify       => Service["demo"],
 		path         => '/opt/demo.jar',
 		ensure       => present,
-		source       => '/vagrant/demo/build/libs/demo-0.1.0.jar',
+		source       => $jar_path,
 	}
 
 	file { '/etc/init/demo.conf':
@@ -27,9 +36,11 @@ class springboot {
 	    enable  => "true",
 		require => [
 			Package["openjdk-7-jdk"],
+			File["/opt/health.py"],
 			File["/etc/init/demo.conf"],
 			File["/opt/demo.jar"],
 		]
 	}
+
 
 }

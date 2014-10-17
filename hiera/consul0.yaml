@@ -1,5 +1,0 @@
-# hiera/server0.yaml
----
-# node_name: "server0"
-# bind_addr: "172.20.20.9"
-foo: "bar"

@@ -18,42 +18,13 @@ import "classes/*"
 node default {
 	include apt
 
-	include springboot
-	include consulclient
-
-	#
-	# Configure Service with Consul (including health check)
-	#
-
-	consul::service { 'foo':
-		tags => ['actuator'],
-		port => 8080,
-		check_script => '/opt/health.py',
-		check_interval => '5s',
-	}
-
-	file { '/opt/health.py':
-		path         => '/opt/health.py',
-		ensure       => present,
-		mode         => 0755,
-		source       => '/vagrant/demo/health.py',
-		before       => Consul::Service['foo']
-	}
-
-	class { 'sensu':
-		purge_config => true,
-		rabbitmq_user => 'sensu',
-		rabbitmq_password => hiera('rabbitmq_pass'),
-		rabbitmq_host => hiera('rabbitmq_host'),
-		rabbitmq_vhost => '/sensu',
-		rabbitmq_port => 5672,
-		subscriptions => 'sensu-test',
-	}
-
-	sensu::check { "application":
-		handlers    => 'default',
-		command     => '/opt/health.py',
-		subscribers => 'sensu-test'
+	class { 'spring_boot_app': 
+		jar_path    => '/vagrant/demo/build/libs/demo-0.1.0.jar',
+		health_path => '/vagrant/demo/health.py',
+	}->
+	class { 'consul_client': 
+		service_name => 'foo',
+		health_path  => '/vagrant/demo/health.py',
 	}
 
 }
