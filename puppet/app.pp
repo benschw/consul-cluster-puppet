@@ -23,7 +23,7 @@ node default {
 		health_path => '/vagrant/demo/health.py',
 	}->
 	class { 'consul_client': 
-		service_name => 'demo',
+		service_name => hiera('svc_name'),
 		health_path  => '/vagrant/demo/health.py',
 	}
 
