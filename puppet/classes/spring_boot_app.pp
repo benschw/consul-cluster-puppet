@@ -1,6 +1,7 @@
 class spring_boot_app (
-	$jar_path    = 'unknown',
-	$health_path = 'unknown',
+	$service_name = 'unknown',
+	$jar_path     = 'unknown',
+	$health_path  = 'unknown',
 ) {
 
 	#
@@ -19,19 +20,19 @@ class spring_boot_app (
 	}
 
 	file { '/opt/demo.jar':
-		notify       => Service["demo"],
+		notify       => Service[$service_name],
 		path         => '/opt/demo.jar',
 		ensure       => present,
 		source       => $jar_path,
 	}
 
 	file { '/etc/init/demo.conf':
-		path         => '/etc/init/demo.conf',
+		path         => "/etc/init/${service_name}.conf",
 		ensure       => present,
 		source       => '/vagrant/demo/demo-init.conf',
 	}
 
-	service { "demo":
+	service { $service_name:
 	    ensure  => "running",
 	    enable  => "true",
 		require => [

@@ -19,8 +19,9 @@ node default {
 	include apt
 
 	class { 'spring_boot_app': 
-		jar_path    => '/vagrant/demo/build/libs/demo-0.1.0.jar',
-		health_path => '/vagrant/demo/health.py',
+		service_name => hiera('svc_name'),
+		jar_path     => '/vagrant/demo/build/libs/demo-0.1.0.jar',
+		health_path  => '/vagrant/demo/health.py',
 	}->
 	class { 'consul_client': 
 		service_name => hiera('svc_name'),

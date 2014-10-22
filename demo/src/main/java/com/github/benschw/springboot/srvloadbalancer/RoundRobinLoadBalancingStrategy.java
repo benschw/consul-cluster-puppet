@@ -18,7 +18,11 @@ public class RoundRobinLoadBalancingStrategy implements LoadBalancingStrategy {
     }
 
     private HostAndPort current() {
-        return nodes.get(index);
+        if (nodes.size() == 0) {
+            return null;
+        } else {
+            return nodes.get(index);
+        }
     }
 
     private List<HostAndPort> normalize(List<HostAndPort> rawNodes) {
