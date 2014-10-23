@@ -20,7 +20,8 @@ public class FooServiceHealthyIndicator extends AbstractHealthIndicator {
 		if (node != null) {
 			builder.up();
 		} else {
-			builder.status("WARN");
+			builder.status("WARN"); // fails in consul with "warn"; is left in load balance
+			// builder.down; // fails in consul with "critical"; takes out of load balance
 		}
 	}
 }
