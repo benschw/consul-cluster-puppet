@@ -19,14 +19,14 @@ public class FooController {
 	@Timed
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody
-    Foo foo() {
-        String hostName = "unknown";
-        try {
-            hostName = InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            //pass
-        }
-        return Foo.builder().
+	Foo foo() {
+		String hostName = "unknown";
+		try {
+			hostName = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			//pass
+		}
+		return Foo.builder().
 				message("Hello from " + hostName).
 				build();
 	}

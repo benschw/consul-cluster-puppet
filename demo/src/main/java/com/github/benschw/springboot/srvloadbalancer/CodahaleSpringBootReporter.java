@@ -8,16 +8,16 @@ import com.spotify.dns.statistics.DnsTimingContext;
 
 public class CodahaleSpringBootReporter implements DnsReporter {
 
-    private MetricRegistry metrics;
+	private MetricRegistry metrics;
 	private Timer lookups;
-    private Counter failures;
-    private Counter empties;
+	private Counter failures;
+	private Counter empties;
 
 	public CodahaleSpringBootReporter(MetricRegistry metrics) {
 		this.metrics = metrics;
 		lookups = metrics.timer(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookup"));
-        failures = metrics.counter(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookupfailures"));
-        empties = metrics.counter(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookupempty"));
+		failures = metrics.counter(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookupfailures"));
+		empties = metrics.counter(MetricRegistry.name(CodahaleSpringBootReporter.class, "srvlookupempty"));
 	}
 
 	@Override
@@ -34,12 +34,12 @@ public class CodahaleSpringBootReporter implements DnsReporter {
 
 	@Override
 	public void reportFailure(Throwable error) {
-        failures.inc();
+		failures.inc();
 		error.printStackTrace(System.err);
 	}
 
 	@Override
 	public void reportEmpty() {
-        empties.inc();
+		empties.inc();
 	}
 }

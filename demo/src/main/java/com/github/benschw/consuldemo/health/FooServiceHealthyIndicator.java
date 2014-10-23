@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class FooServiceHealthyIndicator extends AbstractHealthIndicator {
 
-    @Autowired
-    private LoadBalancer loadBalancer;
+	@Autowired
+	private LoadBalancer loadBalancer;
 
-    @Override
-    protected void doHealthCheck(Health.Builder builder) throws Exception {
-        HostAndPort node = loadBalancer.getAddress("foo");
+	@Override
+	protected void doHealthCheck(Health.Builder builder) throws Exception {
+		HostAndPort node = loadBalancer.getAddress("foo");
 
-        if (node != null) {
-            builder.up();
-        } else {
-            builder.status("WARN");
-        }
-    }
+		if (node != null) {
+			builder.up();
+		} else {
+			builder.status("WARN");
+		}
+	}
 }
