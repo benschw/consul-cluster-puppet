@@ -1,5 +1,6 @@
 ## Consul / Spring Boot
 This is the example stack for a 2 part blog post I wrote:
+
 - [Provisioning Consul with Puppet](http://txt.fliglio.com/2014/10/consul-with-puppet/)
 - [Consul, Spring Boot, Actuator, and Codahale Metrics](http://txt.fliglio.com/2014/10/spring-boot-actuator/)
 
