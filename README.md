@@ -13,6 +13,9 @@ run `deps.sh` to grab puppet dependencies, `build.sh` to build the java app, the
 	./build.sh
 	vagrant up
 
+- deps.sh will pull in puppet module dependencies
+- build.sh builds the demo spring boot app: (just runs ./gradlew build)
+
 ### links (once it's up)
 - Dashboard
 	- [consul](http://172.20.20.13:8500/ui/#/dc1/services)
